@@ -4,7 +4,7 @@ import re
 
 
 def normalizar(texto):
-    """Converte string para formato Prolog: minúsculo, sem espaços/acentos."""
+    
     texto = texto.lower()
     
     substituicoes = {
@@ -17,27 +17,27 @@ def normalizar(texto):
     }
     for orig, dest in substituicoes.items():
         texto = texto.replace(orig, dest)
-    
+   
     texto = re.sub(r'[^a-z0-9]+', '_', texto)
     texto = texto.strip('_')
     return texto
 
 
 
-with open('drivers.csv') as f:
+with open('data/drivers.csv', encoding='utf-8') as f:
     drivers = {r['driverId']: r['driverRef'] for r in csv.DictReader(f)}
 
-with open('constructors.csv') as f:
+with open('data/constructors.csv', encoding='utf-8') as f:
     constructors = {r['constructorId']: r['constructorRef'] for r in csv.DictReader(f)}
 
-with open('races.csv') as f:
+with open('data/races.csv', encoding='utf-8') as f:
     races = {r['raceId']: r for r in csv.DictReader(f) if r['year'] == '2024'}
 
 
 
 predicados = []
 
-with open('results.csv') as f:
+with open('data/results.csv', encoding='utf-8') as f:
     for r in csv.DictReader(f):
         if r['raceId'] not in races:
             continue
@@ -64,7 +64,7 @@ with open('results.csv') as f:
 
 
 
-with open('f1_2024.pl', 'w') as f:
+with open('f1_2024.pl', 'w', encoding='utf-8') as f:
     f.write("% Base de conhecimento - Formula 1 2024\n")
     f.write("% resultado(piloto, equipe, corrida, ano, grid, posicao, pontos, voltas).\n\n")
     for p in predicados:
